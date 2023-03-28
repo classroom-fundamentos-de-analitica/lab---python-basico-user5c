@@ -72,7 +72,18 @@ def pregunta_03():
     ]
 
     """
-    return
+    f = open('data.csv', 'r')
+    lines = f.readlines()
+
+    # Crear lista de letras sin repetirlas y ordenarlas 
+    words = list(set(map(lambda line: line.split('\t')[0] if line.split('\t') else '', lines)))
+    words.sort()
+
+    # Contar cuantas letras hay de cada una
+    word_filter = lambda word: list(filter(lambda line: line.split('\t')[0] == word, lines))
+    result = [(word, sum(map(lambda row: int(row.split('\t')[1]), word_filter(word)))) for word in words]
+
+    return result
 
 
 def pregunta_04():
