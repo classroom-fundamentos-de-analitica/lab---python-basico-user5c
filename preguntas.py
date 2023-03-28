@@ -21,7 +21,13 @@ def pregunta_01():
     214
 
     """
-    return
+    total = 0
+    f = open('data.csv', 'r')
+    lines = f.readlines()
+    
+    total = sum(map(lambda line: int(line.split('\t')[1] if line.split('\t') else 0), lines))
+
+    return total
 
 
 def pregunta_02():
