@@ -21,7 +21,6 @@ def pregunta_01():
     214
 
     """
-    total = 0
     f = open('data.csv', 'r')
     lines = f.readlines()
     
@@ -45,7 +44,17 @@ def pregunta_02():
     ]
 
     """
-    return
+    f = open('data.csv', 'r')
+    lines = f.readlines()
+
+    # Crear lista de letras sin repetirlas y ordenarlas 
+    words = list(set(map(lambda line: line.split('\t')[0] if line.split('\t') else '', lines)))
+    words.sort()
+
+    # Contar cuantas letras hay de cada una
+    result = [(word, len(list(filter(lambda line: line.split('\t')[0] == word, lines)))) for word in words]
+
+    return result
 
 
 def pregunta_03():
