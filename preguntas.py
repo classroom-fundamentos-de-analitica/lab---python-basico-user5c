@@ -74,14 +74,17 @@ def pregunta_03():
     """
     f = open('data.csv', 'r')
     lines = f.readlines()
+    linec1_filter = lambda line: line.split('\t')[0] if line.split('\t') else ''
+    linec2_filter = lambda line: int(line.split('\t')[1]) if line.split('\t') else 0
 
     # Crear lista de letras sin repetirlas y ordenarlas 
-    words = list(set(map(lambda line: line.split('\t')[0] if line.split('\t') else '', lines)))
+    words = list(set(map(linec1_filter, lines)))
     words.sort()
 
     # Contar cuantas letras hay de cada una
-    word_filter = lambda word: list(filter(lambda line: line.split('\t')[0] == word, lines))
-    result = [(word, sum(map(lambda row: int(row.split('\t')[1]), word_filter(word)))) for word in words]
+    word_filter = lambda word: list(filter(linec1_filter() == word, lines))
+
+    result = [(word, sum(map(linec2_filter, word_filter(word)))) for word in words]
 
     return result
 
@@ -108,7 +111,22 @@ def pregunta_04():
     ]
 
     """
-    return
+    f = open('data.csv', 'r')
+    lines = f.readlines()
+    linec3_filter = lambda line: line.split('\t')[2] if line.split('\t') else ''
+
+    date_filter = lambda date: date.split('-')[1]
+    dates_list = list(map(linec3_filter, lines))
+
+    month_list = list(map(date_filter, dates_list))
+    months = list(set(month_list))
+    months.sort()
+
+    month_filter = lambda month_f: list(filter(lambda month: month == month_f, month_list))
+
+    result = [(month_f, len(month_filter(month_f))) for month_f in months]
+
+    return result
 
 
 def pregunta_05():
