@@ -227,11 +227,11 @@ def pregunta_07():
     linec1_filter = lambda line: line.split('\t')[0] if line.split('\t') else ''
     linec2_filter = lambda line: int(line.split('\t')[1]) if line.split('\t') else 0
 
-    # Crear lista de letras sin repetirlas y ordenarlas 
+    # Crear lista de numeros sin repetirlas y ordenarlas 
     numbers = list(set(map(linec2_filter, lines)))
     numbers.sort()
 
-    # Contar cuantas letras hay de cada una
+    # Crear lista de filas que tengan el 'number' en la columna 2
     number_filter = lambda number: filter(lambda line: int(line.split('\t')[1]) == number, lines)
 
     result = [(number, list(map(linec1_filter, number_filter(number)))) for number in numbers]
@@ -298,7 +298,21 @@ def pregunta_09():
     }
 
     """
-    return
+    f = open('data.csv', 'r')
+    lines = f.readlines()
+    linec5_filter = lambda line: line.split('\t')[4].split(',')
+    
+    # Crear lista de letras sin repetirlas y ordenarlas 
+    key_value_list = [key_value.strip('\n').split(':') for line_c5 in map(linec5_filter, lines) for key_value in line_c5]
+    keys = list(set([k for k, v in key_value_list]))
+    keys.sort()
+
+    result = {}
+    for key in keys:
+        values_per_key = list(map(lambda kvi: int(kvi[1]), filter(lambda kvj: kvj[0] == key, key_value_list)))
+        result[key] = len(values_per_key)
+
+    return result
 
 
 def pregunta_10():
