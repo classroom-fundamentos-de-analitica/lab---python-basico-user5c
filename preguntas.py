@@ -222,7 +222,21 @@ def pregunta_07():
     ]
 
     """
-    return
+    f = open('data.csv', 'r')
+    lines = f.readlines()
+    linec1_filter = lambda line: line.split('\t')[0] if line.split('\t') else ''
+    linec2_filter = lambda line: int(line.split('\t')[1]) if line.split('\t') else 0
+
+    # Crear lista de letras sin repetirlas y ordenarlas 
+    numbers = list(set(map(linec2_filter, lines)))
+    numbers.sort()
+
+    # Contar cuantas letras hay de cada una
+    number_filter = lambda number: filter(lambda line: int(line.split('\t')[1]) == number, lines)
+
+    result = [(number, list(map(linec1_filter, number_filter(number)))) for number in numbers]
+
+    return result
 
 
 def pregunta_08():
