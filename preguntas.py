@@ -182,7 +182,18 @@ def pregunta_06():
     ]
 
     """
-    return
+    f = open('data.csv', 'r')
+    lines = f.readlines()
+    linec5_filter = lambda line: line.split('\t')[4].split(',') if line.split('\t') else ''
+    
+    # Crear lista de letras sin repetirlas y ordenarlas 
+    key_value_list = [key_value.strip('\n').split(':') for line_c5 in map(linec5_filter, lines) for key_value in line_c5]
+    keys = list(set([k for k, v in key_value_list]))
+    keys.sort()
+
+    result = [(key, min(map(lambda kvi: kvi[1], filter(lambda kvj: kvj[0] == key, key_value_list))), max(map(lambda kvi: kvi[1], filter(lambda kvj: kvj[0] == key, key_value_list)))) for key in keys]
+
+    return result
 
 
 def pregunta_07():
