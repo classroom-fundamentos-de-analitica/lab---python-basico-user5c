@@ -333,7 +333,19 @@ def pregunta_10():
 
 
     """
-    return
+    f = open('data.csv', 'r')
+    lines = f.readlines()
+    result = list(
+        map(
+            lambda line: (
+                line.split('\t')[0],
+                len(line.split('\t')[3].split(',')),
+                len(line.split('\t')[4].split(','))
+            ),
+            lines
+        )
+    )
+    return result
 
 
 def pregunta_11():
