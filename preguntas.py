@@ -366,7 +366,20 @@ def pregunta_11():
 
 
     """
-    return
+    f = open('data.csv', 'r')
+    lines = f.readlines()
+    linec2_filter = lambda line: int(line.split('\t')[1])
+    linec4_filter = lambda line: line.split('\t')[3].split(',')
+    
+    # Crear lista de letras sin repetirlas y ordenarlas 
+    word_list = [value.strip('\n') for line_c4 in map(linec4_filter, lines) for value in line_c4]
+    words = sorted(set(word_list))
+
+    result = {}
+    for word in words:
+        result[word] = sum(map(linec2_filter, filter(lambda line: word in line.split('\t')[3].split(','), lines)))
+
+    return result
 
 
 def pregunta_12():
