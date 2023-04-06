@@ -82,7 +82,7 @@ def pregunta_03():
     words.sort()
 
     # Contar cuantas letras hay de cada una
-    word_filter = lambda word: list(filter(linec1_filter() == word, lines))
+    word_filter = lambda word: filter(lambda line: (line.split('\t')[0] if line.split('\t') else '') == word, lines)
 
     result = [(word, sum(map(linec2_filter, word_filter(word)))) for word in words]
 
@@ -144,7 +144,20 @@ def pregunta_05():
     ]
 
     """
-    return
+    f = open('data.csv', 'r')
+    lines = f.readlines()
+    linec1_filter = lambda line: line.split('\t')[0] if line.split('\t') else ''
+    linec2_filter = lambda line: int(line.split('\t')[1]) if line.split('\t') else 0
+
+    # Crear lista de letras sin repetirlas y ordenarlas 
+    words = list(set(map(linec1_filter, lines)))
+    words.sort()
+
+    # Sacar valor maximo y minimo de cada letra
+    word_filter = lambda word: filter(lambda line: (line.split('\t')[0] if line.split('\t') else '') == word, lines)
+
+    result = [(word, max(map(linec2_filter, word_filter(word))), min(map(linec2_filter, word_filter(word)))) for word in words]
+    return result
 
 
 def pregunta_06():
