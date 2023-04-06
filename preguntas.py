@@ -397,4 +397,17 @@ def pregunta_12():
     }
 
     """
-    return
+    f = open('data.csv', 'r')
+    lines = f.readlines()
+    linec1_filter = lambda line: line.split('\t')[0] if line.split('\t') else ''
+    linec5_filter = lambda line: line.split('\t')[4].split(',')
+
+    upper_word_list = sorted(set(map(linec1_filter, lines)))
+    
+    result = {}
+    for uppwer_word in upper_word_list:
+        col5_list = list(map(linec5_filter, filter(lambda line: line.split('\t')[0] == uppwer_word, lines)))
+        col5_list_flat = [int(kvj.split(':')[1]) for kv in col5_list for kvj in kv]
+        result[uppwer_word] = sum(col5_list_flat)
+
+    return result
