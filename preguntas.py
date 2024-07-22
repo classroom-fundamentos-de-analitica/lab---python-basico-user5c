@@ -21,7 +21,12 @@ def pregunta_01():
     214
 
     """
-    return
+    f = open('data.csv', 'r')
+    lines = f.readlines()
+    
+    total = sum(map(lambda line: int(line.split('\t')[1] if line.split('\t') else 0), lines))
+
+    return total
 
 
 def pregunta_02():
@@ -39,7 +44,17 @@ def pregunta_02():
     ]
 
     """
-    return
+    f = open('data.csv', 'r')
+    lines = f.readlines()
+
+    # Crear lista de letras sin repetirlas y ordenarlas 
+    words = list(set(map(lambda line: line.split('\t')[0] if line.split('\t') else '', lines)))
+    words.sort()
+
+    # Contar cuantas letras hay de cada una
+    result = [(word, len(list(filter(lambda line: line.split('\t')[0] == word, lines)))) for word in words]
+
+    return result
 
 
 def pregunta_03():
@@ -57,7 +72,21 @@ def pregunta_03():
     ]
 
     """
-    return
+    f = open('data.csv', 'r')
+    lines = f.readlines()
+    linec1_filter = lambda line: line.split('\t')[0] if line.split('\t') else ''
+    linec2_filter = lambda line: int(line.split('\t')[1]) if line.split('\t') else 0
+
+    # Crear lista de letras sin repetirlas y ordenarlas 
+    words = list(set(map(linec1_filter, lines)))
+    words.sort()
+
+    # Contar cuantas letras hay de cada una
+    word_filter = lambda word: filter(lambda line: (line.split('\t')[0] if line.split('\t') else '') == word, lines)
+
+    result = [(word, sum(map(linec2_filter, word_filter(word)))) for word in words]
+
+    return result
 
 
 def pregunta_04():
@@ -82,7 +111,22 @@ def pregunta_04():
     ]
 
     """
-    return
+    f = open('data.csv', 'r')
+    lines = f.readlines()
+    linec3_filter = lambda line: line.split('\t')[2] if line.split('\t') else ''
+
+    date_filter = lambda date: date.split('-')[1]
+    dates_list = list(map(linec3_filter, lines))
+
+    month_list = list(map(date_filter, dates_list))
+    months = list(set(month_list))
+    months.sort()
+
+    month_filter = lambda month_f: list(filter(lambda month: month == month_f, month_list))
+
+    result = [(month_f, len(month_filter(month_f))) for month_f in months]
+
+    return result
 
 
 def pregunta_05():
@@ -100,7 +144,20 @@ def pregunta_05():
     ]
 
     """
-    return
+    f = open('data.csv', 'r')
+    lines = f.readlines()
+    linec1_filter = lambda line: line.split('\t')[0] if line.split('\t') else ''
+    linec2_filter = lambda line: int(line.split('\t')[1]) if line.split('\t') else 0
+
+    # Crear lista de letras sin repetirlas y ordenarlas 
+    words = list(set(map(linec1_filter, lines)))
+    words.sort()
+
+    # Sacar valor maximo y minimo de cada letra
+    word_filter = lambda word: filter(lambda line: (line.split('\t')[0] if line.split('\t') else '') == word, lines)
+
+    result = [(word, max(map(linec2_filter, word_filter(word))), min(map(linec2_filter, word_filter(word)))) for word in words]
+    return result
 
 
 def pregunta_06():
@@ -125,7 +182,23 @@ def pregunta_06():
     ]
 
     """
-    return
+    f = open('data.csv', 'r')
+    lines = f.readlines()
+    linec5_filter = lambda line: line.split('\t')[4].split(',')
+    
+    # Crear lista de letras sin repetirlas y ordenarlas 
+    key_value_list = [key_value.strip('\n').split(':') for line_c5 in map(linec5_filter, lines) for key_value in line_c5]
+    keys = list(set([k for k, v in key_value_list]))
+    keys.sort()
+
+    result = []
+    for key in keys:
+        values_per_key = list(map(lambda kvi: int(kvi[1]), filter(lambda kvj: kvj[0] == key, key_value_list)))
+        min_value = min(values_per_key)
+        max_value = max(values_per_key)
+        result.append((key, min_value, max_value))
+
+    return result
 
 
 def pregunta_07():
@@ -149,7 +222,21 @@ def pregunta_07():
     ]
 
     """
-    return
+    f = open('data.csv', 'r')
+    lines = f.readlines()
+    linec1_filter = lambda line: line.split('\t')[0] if line.split('\t') else ''
+    linec2_filter = lambda line: int(line.split('\t')[1]) if line.split('\t') else 0
+
+    # Crear lista de numeros sin repetirlas y ordenarlas 
+    numbers = list(set(map(linec2_filter, lines)))
+    numbers.sort()
+
+    # Crear lista de filas que tengan el 'number' en la columna 2
+    number_filter = lambda number: filter(lambda line: int(line.split('\t')[1]) == number, lines)
+
+    result = [(number, list(map(linec1_filter, number_filter(number)))) for number in numbers]
+
+    return result
 
 
 def pregunta_08():
@@ -174,7 +261,21 @@ def pregunta_08():
     ]
 
     """
-    return
+    f = open('data.csv', 'r')
+    lines = f.readlines()
+    linec1_filter = lambda line: line.split('\t')[0] if line.split('\t') else ''
+    linec2_filter = lambda line: int(line.split('\t')[1]) if line.split('\t') else 0
+
+    # Crear lista de letras sin repetirlas y ordenarlas 
+    numbers = list(set(map(linec2_filter, lines)))
+    numbers.sort()
+
+    # Contar cuantas letras hay de cada una
+    number_filter = lambda number: filter(lambda line: int(line.split('\t')[1]) == number, lines)
+
+    result = [(number, sorted(set(map(linec1_filter, number_filter(number))))) for number in numbers]
+
+    return result
 
 
 def pregunta_09():
@@ -197,7 +298,21 @@ def pregunta_09():
     }
 
     """
-    return
+    f = open('data.csv', 'r')
+    lines = f.readlines()
+    linec5_filter = lambda line: line.split('\t')[4].split(',')
+    
+    # Crear lista de letras sin repetirlas y ordenarlas 
+    key_value_list = [key_value.strip('\n').split(':') for line_c5 in map(linec5_filter, lines) for key_value in line_c5]
+    keys = list(set([k for k, v in key_value_list]))
+    keys.sort()
+
+    result = {}
+    for key in keys:
+        values_per_key = list(map(lambda kvi: int(kvi[1]), filter(lambda kvj: kvj[0] == key, key_value_list)))
+        result[key] = len(values_per_key)
+
+    return result
 
 
 def pregunta_10():
@@ -218,7 +333,19 @@ def pregunta_10():
 
 
     """
-    return
+    f = open('data.csv', 'r')
+    lines = f.readlines()
+    result = list(
+        map(
+            lambda line: (
+                line.split('\t')[0],
+                len(line.split('\t')[3].split(',')),
+                len(line.split('\t')[4].split(','))
+            ),
+            lines
+        )
+    )
+    return result
 
 
 def pregunta_11():
@@ -239,7 +366,20 @@ def pregunta_11():
 
 
     """
-    return
+    f = open('data.csv', 'r')
+    lines = f.readlines()
+    linec2_filter = lambda line: int(line.split('\t')[1])
+    linec4_filter = lambda line: line.split('\t')[3].split(',')
+    
+    # Crear lista de letras sin repetirlas y ordenarlas 
+    word_list = [value.strip('\n') for line_c4 in map(linec4_filter, lines) for value in line_c4]
+    words = sorted(set(word_list))
+
+    result = {}
+    for word in words:
+        result[word] = sum(map(linec2_filter, filter(lambda line: word in line.split('\t')[3].split(','), lines)))
+
+    return result
 
 
 def pregunta_12():
@@ -257,4 +397,17 @@ def pregunta_12():
     }
 
     """
-    return
+    f = open('data.csv', 'r')
+    lines = f.readlines()
+    linec1_filter = lambda line: line.split('\t')[0] if line.split('\t') else ''
+    linec5_filter = lambda line: line.split('\t')[4].split(',')
+
+    upper_word_list = sorted(set(map(linec1_filter, lines)))
+    
+    result = {}
+    for uppwer_word in upper_word_list:
+        col5_list = list(map(linec5_filter, filter(lambda line: line.split('\t')[0] == uppwer_word, lines)))
+        col5_list_flat = [int(kvj.split(':')[1]) for kv in col5_list for kvj in kv]
+        result[uppwer_word] = sum(col5_list_flat)
+
+    return result
